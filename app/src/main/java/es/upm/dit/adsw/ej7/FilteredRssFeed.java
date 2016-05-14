@@ -3,12 +3,14 @@ package es.upm.dit.adsw.ej7;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.upm.dit.adsw.ej7.rss.RssContent;
+
 /**
  * RSS items filtrados.
  * Los que contienen todas las palabras de busqueda.
  */
 public class FilteredRssFeed {
-    private static final List<RssItem> ITEMS = new ArrayList<RssItem>();
+    private static final List<RssContent.EntryRss> ITEMS = new ArrayList<>();
 
     private static String[] filters = new String[0];
 
@@ -29,7 +31,7 @@ public class FilteredRssFeed {
      * Incorpora un nuevo item si contiene todas las palabras filtro.
      * @param item nuevo item a intentar
      */
-    public static void add(RssItem item) {
+    public static void add(RssContent.EntryRss item) {
         String title = item.title.toLowerCase();
         for (String filter: filters) {
             if (!title.contains(filter))
@@ -42,7 +44,7 @@ public class FilteredRssFeed {
      * Getter.
      * @return items que cumplen con los requisitos.
      */
-    public static List<RssItem> getEntries() {
+    public static List<RssContent.EntryRss> getEntries() {
         return ITEMS;
     }
 }

@@ -1,7 +1,6 @@
-package es.upm.dit.adsw.ej7;
+package es.upm.dit.adsw.ej7.rss;
 /*
  * Adaptado del proyecto Android. Cambiado para el formato Atom.
- *
  * Copyright 2013 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +16,7 @@ package es.upm.dit.adsw.ej7;
  * limitations under the License.
  */
 
+
 import android.util.Log;
 import android.util.Xml;
 
@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class parses generic Atom feeds.
- * Available at http://developer.android.com/intl/es/samples/BasicSyncAdapter/src/com.example.android.basicsyncadapter/net/FeedParser.html
+ * This class parses generic Atom feeds. Available at http://developer.android.com/intl/es/samples/BasicSyncAdapter/src/com.example.android.basicsyncadapter/net/FeedParser.html
  * <p/>
  * <p>Given an InputStream representation of a feed, it returns a List of entries,
  * where each list element represents a single entry (post) in the XML feed.
@@ -39,7 +38,8 @@ import java.util.List;
  * <p>An example of an Atom feed can be found at:
  * http://en.wikipedia.org/w/index.php?title=Atom_(standard)&oldid=560239173#Example_of_an_Atom_1.0_feed
  */
-public class RssFeedParser {
+public class FeedParser {
+
     // Constants indicting XML element names that we're interested in
     private static final int TAG_ID = 1;
     private static final int TAG_TITLE = 2;
@@ -57,41 +57,44 @@ public class RssFeedParser {
     // We don't use XML namespaces
     private static final String ns = null;
 
-    private static final String TAG = RssFeedParser.class.getName();
-
+    private static final String TAG  = FeedParser.class.getName();
     /**
      * Parse an Atom feed, returning a collection of Entry objects.
      *
      * @param in Atom feed, as a stream.
-     * @return List of {@link RssItem} objects.
+     * @return List of {@link RssContent.EntryRss} objects.
      * @throws XmlPullParserException on error parsing feed.
-     * @throws IOException            on I/O error.
+     * @throws IOException                   on I/O error.
      */
-    public List<RssItem> parse(InputStream in)
+    public List<RssContent.EntryRss> parse(InputStream in)
             throws XmlPullParserException, IOException, ParseException {
-        XmlPullParser parser = Xml.newPullParser();
-        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-        parser.setInput(in, null);
-        // Leemos tag rss
-        parser.nextTag();
-        // Log.v(TAG, "Expected rss obtained tag  " + parser.getName());
-        // Leemos tag channel
-        parser.nextTag();
-        // Log.v(TAG, "Expected channel obtained tag " + parser.getName());
-        return readFeed(parser);
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(in, null);
+            //  Leemos tag rss
+            parser.nextTag();
+            //Log.v(TAG, "Expected rss obtained tag  " + parser.getName());
+            // Leemos tag channel
+            parser.nextTag();
+            //Log.v(TAG, "Expected channel obtained tag " + parser.getName());
+            return readFeed(parser);
+        } finally {
+            in.close();
+        }
     }
 
     /**
      * Decode a feed attached to an XmlPullParser.
      *
      * @param parser Incoming XMl
-     * @return List of {@link RssItem} objects.
+     * @return List of {@link RssContent.EntryRss} objects.
      * @throws XmlPullParserException on error parsing feed.
-     * @throws IOException            on I/O error.
+     * @throws IOException                   on I/O error.
      */
-    private List<RssItem> readFeed(XmlPullParser parser)
+    private List<RssContent.EntryRss> readFeed(XmlPullParser parser)
             throws XmlPullParserException, IOException, ParseException {
-        List<RssItem> entries = new ArrayList<RssItem>();
+        List<RssContent.EntryRss> entries = new ArrayList<>();
 
         /*
         <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:nyt="http://www.nytimes.com/namespaces/rss/2.0" version="2.0">
@@ -120,7 +123,7 @@ public class RssFeedParser {
                 continue;
             }
             String name = parser.getName();
-            // Log.v(TAG, "Expected " + ENTRY + " "  + " obtained " + name);
+            //Log.v(TAG, "Expected " + ENTRY + " "  + " obtained " + name);
             // Starts by looking for the <item> tag. This tag repeates inside of <channel> for each
             // article in the feed.
             //
@@ -151,7 +154,7 @@ public class RssFeedParser {
             if (name.equals(ENTRY)) {
                 entries.add(readEntry(parser));
             } else {
-                // Log.v(TAG, "skip " + name);
+                //Log.v(TAG, "skip " + name);
                 skip(parser);
             }
         }
@@ -163,7 +166,7 @@ public class RssFeedParser {
      * Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them
      * off to their respective "read" methods for processing. Otherwise, skips the tag.
      */
-    private RssItem readEntry(XmlPullParser parser)
+    private RssContent.EntryRss readEntry(XmlPullParser parser)
             throws XmlPullParserException, IOException, ParseException {
         parser.require(XmlPullParser.START_TAG, ns, ENTRY);
         String id = null;
@@ -173,8 +176,9 @@ public class RssFeedParser {
         String description = null;
 
         while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG)
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
+            }
             String name = parser.getName();
             switch (name) {
                 case ID:
@@ -191,8 +195,9 @@ public class RssFeedParser {
                     // Multiple link types can be included. readAlternateLink() will only return
                     // non-null when reading an "alternate"-type link. Ignore other responses.
                     String tempLink = readTag(parser, TAG_LINK);
-                    if (tempLink != null)
+                    if (tempLink != null) {
                         link = tempLink;
+                    }
                     break;
                 case PUBLISHED:
                     // Example: <pubDate>Sat, 23 Apr 2016 00:22:46 GMT</pubDate>
@@ -208,7 +213,7 @@ public class RssFeedParser {
             }
         }
         Log.d(TAG, "read item " + id + " " + title + " " + description + " " + publishedOn);
-        return new RssItem(id, title, description, publishedOn, link);
+        return new RssContent.EntryRss(id, title, description, publishedOn, link);
     }
 
     /**
@@ -217,7 +222,8 @@ public class RssFeedParser {
     private String readTag(XmlPullParser parser, int tagType)
             throws IOException, XmlPullParserException {
 
-        // Log.v(TAG, "readTag "  + tagType);
+
+        //Log.v(TAG, "readTag "  + tagType);
         switch (tagType) {
             case TAG_ID:
                 return readBasicTag(parser, ID);
@@ -256,20 +262,22 @@ public class RssFeedParser {
     /**
      * Processes link tags in the feed.
      */
+    /*
     private String readAlternateLink(XmlPullParser parser)
             throws IOException, XmlPullParserException {
         String link = null;
         parser.require(XmlPullParser.START_TAG, ns, "link");
         String relType = parser.getAttributeValue(null, "rel");
-        if (relType.equals("alternate"))
+        if (relType.equals("alternate")) {
             link = parser.getAttributeValue(null, "href");
+        }
         while (true) {
-            if (parser.nextTag() == XmlPullParser.END_TAG)
-                break;
+            if (parser.nextTag() == XmlPullParser.END_TAG) break;
             // Intentionally break; consumes any remaining sub-tags.
         }
         return link;
     }
+    */
 
     /**
      * For the tags title and summary, extracts their text values.
@@ -289,8 +297,9 @@ public class RssFeedParser {
      * finds the matching END_TAG (as indicated by the value of "depth" being 0).
      */
     private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-        if (parser.getEventType() != XmlPullParser.START_TAG)
+        if (parser.getEventType() != XmlPullParser.START_TAG) {
             throw new IllegalStateException();
+        }
         int depth = 1;
         while (depth != 0) {
             switch (parser.next()) {
@@ -303,4 +312,6 @@ public class RssFeedParser {
             }
         }
     }
+
+
 }

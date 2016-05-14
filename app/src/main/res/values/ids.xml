@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main_editText" type="id"/>
+    <item name="rssItemDate" type="id" />
+    <item name="rssItemDescription" type="id" />
+</resources>

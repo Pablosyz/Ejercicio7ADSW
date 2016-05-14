@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ejercicio7ADSW</string>
+    <string name="busca_un_t_rmino">Busca un término</string>
     <string name="busca_t_rmino">busca término</string>
     <string name="leer_noticias">LEER NOTICIAS</string>
 </resources>

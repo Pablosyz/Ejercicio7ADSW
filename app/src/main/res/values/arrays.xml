@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="feeds_array">
+        <item>El País</item>
+        <item>SlashDat</item>
+        <item>NY Times - Technology</item>
+        <item>Xataka Android</item>
+    </string-array>
+    <string-array name="feeds_url">
+        <item>http://ep00.epimg.net/rss/elpais/portada.xml</item>
+        <item>http://dat.etsit.upm.es/?q=/rss/all</item>
+        <item>http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</item>
+        <item>http://feeds.weblogssl.com/xatakandroid</item>
+    </string-array>
+</resources>
