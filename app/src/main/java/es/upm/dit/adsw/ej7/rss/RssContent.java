@@ -32,7 +32,7 @@ public class RssContent {
         public final String title;
         public final String description;
         public final String published;
-        public final String link;
+        public static String link;
 
         public EntryRss(String id, String title, String description, String published, String link) {
             this.id = id;
