@@ -9,15 +9,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
 
+import es.upm.dit.adsw.ej7.rss.RssContent;
+
 /**
  * Created by Pablo on 14/05/2016.
  */
 public class RssArrayAdapter extends ArrayAdapter {
-    private List<RssItem> data;
+    private List<RssContent.EntryRss> data;
     private int layoutId;
     private Context mContext;
 
-    public RssArrayAdapter(Context mContext, int layoutId, List<RssItem> data) {
+    public RssArrayAdapter(Context mContext, int layoutId, List<RssContent.EntryRss> data) {
         super(mContext, layoutId, data);
         this.layoutId = layoutId;
         this.mContext = mContext;
@@ -31,7 +33,7 @@ public class RssArrayAdapter extends ArrayAdapter {
         }
         TextView dateView = (TextView) convertView.findViewById(R.id.rssItemDate);
         TextView descriptionView = (TextView) convertView.findViewById(R.id.rssItemDescription);
-        RssItem item = (RssItem) this.data.get(position);
+        RssContent.EntryRss item = this.data.get(position);
         ((TextView) convertView.findViewById(R.id.rssItemTitle)).setText(item.title);
         dateView.setText(item.date);
         descriptionView.setText(Html.fromHtml(item.description));

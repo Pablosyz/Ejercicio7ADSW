@@ -1,6 +1,5 @@
 package es.upm.dit.adsw.ej7;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
