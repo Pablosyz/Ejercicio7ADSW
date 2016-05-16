@@ -15,28 +15,28 @@ import es.upm.dit.adsw.ej7.rss.RssContent;
  * Created by Pablo on 14/05/2016.
  */
 public class RssArrayAdapter extends ArrayAdapter {
-    private List<RssContent.EntryRss> data;
+    private List<RssContent.EntryRss> entryRssList;
     private int layoutId;
-    private Context mContext;
+    private Context myContext;
 
-    public RssArrayAdapter(Context mContext, int layoutId, List<RssContent.EntryRss> data) {
-        super(mContext, layoutId, data);
+    public RssArrayAdapter(Context mContext, int layoutId, List<RssContent.EntryRss> datos) {
+        super(mContext, layoutId, datos);
         this.layoutId = layoutId;
-        this.mContext = mContext;
-        this.data = data;
+        this.myContext = mContext;
+        this.entryRssList = datos;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+            LayoutInflater inflater = (LayoutInflater) myContext.getSystemService( myContext.LAYOUT_INFLATER_SERVICE );
             convertView = inflater.inflate(this.layoutId, parent, false);
         }
         TextView dateView = (TextView) convertView.findViewById(R.id.rssItemDate);
         TextView descriptionView = (TextView) convertView.findViewById(R.id.rssItemDescription);
-        RssContent.EntryRss item = this.data.get(position);
-        ((TextView) convertView.findViewById(R.id.rssItemTitle)).setText(item.title);
-        dateView.setText(item.date);
-        descriptionView.setText(Html.fromHtml(item.description));
+        RssContent.EntryRss entryRss = this.entryRssList.get(position);
+        ((TextView) convertView.findViewById(R.id.rssItemTitle)).setText(entryRss.title);
+        dateView.setText(entryRss.date);
+        descriptionView.setText(Html.fromHtml(entryRss.description));
         return convertView;
     }
 }

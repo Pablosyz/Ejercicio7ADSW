@@ -12,19 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import es.upm.dit.adsw.ej7.rss.FeedDownloader;
-import es.upm.dit.adsw.ej7.rss.FeedParser;
 import es.upm.dit.adsw.ej7.rss.RssContent;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,15 +39,16 @@ public class MainActivity extends AppCompatActivity {
 
         public void onClick(View v) {
             try {
-                String words = MainActivity.this.words.getText().toString();
+                String palabras = MainActivity.this.words.getText().toString();
                 int position = feedSpinner.getSelectedItemPosition();
                 String url = urlList.get(position);
-                Log.d(MainActivity.TAG, "Palabras " + words);
+                //Para analizar lo que va sucediendo pasamos al log las tareas realizadas:
+                Log.d(MainActivity.TAG, "Palabras " + palabras);
                 Log.d(MainActivity.TAG, "URL " + url);
-                new RssRetrieveTask(null).execute(new String[]{url, words});
+                new RssRetrieveTask(null).execute(new String[]{url, palabras});
             } catch (Exception e) {
                 Log.e(MainActivity.TAG, "Error " + e.toString());
-                Toast.makeText(MainActivity.this.getBaseContext(), "Error al recuperar las noticias", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this.getBaseContext(), "Error intentar cargar las noticias:", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -67,12 +63,13 @@ public class MainActivity extends AppCompatActivity {
         }
         protected Void doInBackground(String... strings) {
             try {
-                String site = strings[0];
-                String words = strings[1];
-                Log.d(MainActivity.TAG, "doInBackgroud " + site + " words " + words);
-                List<RssContent.EntryRss> entries =  new FeedDownloader().loadXmlFromNetwork(site);
-                FilteredRssFeed.reset(words);
-                for (RssContent.EntryRss item : entries) {
+                String sitio = strings[0];
+                String palabras = strings[1];
+                //Para analizar lo que va sucediendo pasamos al log la tarea realizada:
+                Log.d(MainActivity.TAG, "doInBackgroud " + sitio + "palabras" + palabras);
+                List<RssContent.EntryRss> entradasRss =  new FeedDownloader().loadXmlFromNetwork(sitio);
+                FilteredRssFeed.reset(palabras);
+                for (RssContent.EntryRss item : entradasRss) {
                     FilteredRssFeed.add(item);
                 }
             } catch (Exception e) {
@@ -84,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void v) {
             super.onPostExecute(v);
             MainActivity.this.progressBar.setVisibility(View.INVISIBLE);
-            Intent intent = new Intent(MainActivity.this, RssListActivity.class);
-            //intent.setFlags()
+            Intent intent = new Intent(MainActivity.this, ListViewActivity.class);
             MainActivity.this.startActivity(intent);
         }
     }
