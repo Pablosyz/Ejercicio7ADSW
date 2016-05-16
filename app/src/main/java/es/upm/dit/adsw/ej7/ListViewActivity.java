@@ -13,7 +13,11 @@ import android.widget.ListView;
 import es.upm.dit.adsw.ej7.rss.RssContent;
 
 /**
- * Created by Pablo on 14/05/2016.
+ * ListViewActivity
+ *
+ * @author Pablo Sánchez Yáñez <pablo.p.s@ieee.org> based in code given
+ *                              by proffessors and exercise directions.
+ * @version 16.05.2016
  */
 public class ListViewActivity extends AppCompatActivity {
     public static final String TAG = ListViewActivity.class.getName();
@@ -33,5 +37,6 @@ public class ListViewActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(new RssArrayAdapter(ListViewActivity.this, R.layout.rss_item_row, FilteredRssFeed.getEntries()));
         listView.setOnItemClickListener(new OnItemClickListenerListViewItem());
+
     }
 }

@@ -12,7 +12,11 @@ import java.util.List;
 import es.upm.dit.adsw.ej7.rss.RssContent;
 
 /**
- * Created by Pablo on 14/05/2016.
+ * RssArrayAdapter
+ *
+ * @author Pablo Sánchez Yáñez <pablo.p.s@ieee.org> based in code given
+ *                              by proffessors and exercise directions.
+ * @version 16.05.2016
  */
 public class RssArrayAdapter extends ArrayAdapter {
     private List<RssContent.EntryRss> entryRssList;
@@ -28,7 +32,7 @@ public class RssArrayAdapter extends ArrayAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) myContext.getSystemService( myContext.LAYOUT_INFLATER_SERVICE );
+            LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(this.layoutId, parent, false);
         }
         TextView dateView = (TextView) convertView.findViewById(R.id.rssItemDate);

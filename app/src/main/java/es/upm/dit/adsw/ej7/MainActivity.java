@@ -22,6 +22,14 @@ import java.util.List;
 import es.upm.dit.adsw.ej7.rss.FeedDownloader;
 import es.upm.dit.adsw.ej7.rss.RssContent;
 
+/**
+ * RssArrayAdapter
+ *
+ * @author Pablo Sánchez Yáñez <pablo.p.s@ieee.org> based in code given
+ *                              by proffessors and exercise directions.
+ * @version 16.05.2016
+ */
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
     private Spinner feedSpinner;
@@ -108,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         this.feedSpinner.setAdapter(adapter);
         Button leerNoticias = (Button) findViewById(R.id.leer_button);
         leerNoticias.setOnClickListener(new ReadOnClickListener());
+
     }
 
     private void add(String site, String url) {
