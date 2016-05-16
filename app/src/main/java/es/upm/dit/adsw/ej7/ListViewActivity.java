@@ -16,7 +16,7 @@ import es.upm.dit.adsw.ej7.rss.RssContent;
  * ListViewActivity
  *
  * @author Pablo Sánchez Yáñez <pablo.p.s@ieee.org> based in code given
- *                              by proffessors and exercise directions.
+ *         by proffessors and exercise directions.
  * @version 16.05.2016
  */
 public class ListViewActivity extends AppCompatActivity {
@@ -30,6 +30,7 @@ public class ListViewActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

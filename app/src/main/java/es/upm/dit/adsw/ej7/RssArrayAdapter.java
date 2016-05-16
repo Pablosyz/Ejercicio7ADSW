@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.List;
 
 import es.upm.dit.adsw.ej7.rss.RssContent;
@@ -15,7 +16,7 @@ import es.upm.dit.adsw.ej7.rss.RssContent;
  * RssArrayAdapter
  *
  * @author Pablo Sánchez Yáñez <pablo.p.s@ieee.org> based in code given
- *                              by proffessors and exercise directions.
+ *         by proffessors and exercise directions.
  * @version 16.05.2016
  */
 public class RssArrayAdapter extends ArrayAdapter {

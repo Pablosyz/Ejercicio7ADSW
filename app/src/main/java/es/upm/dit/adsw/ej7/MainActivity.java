@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         add("NY Times - Technology",
                 "http://rss.nytimes.com/services/xml/rss/nyt/Technology.xml");
         add("Xataka Android", "http://feeds.weblogssl.com/xatakandroid");
+        add("El Mundo", "http://estaticos.elmundo.es/elmundo/rss/portada.xml");
+        add("Teknautas EC", "http://rss.elconfidencial.com/tecnologia/");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, optionList);
