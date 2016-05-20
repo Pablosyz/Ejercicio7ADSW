@@ -32,15 +32,16 @@ public class RssArrayAdapter extends ArrayAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+        RssContent.EntryRss entryRss = this.entryRssList.get(position);
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(this.layoutId, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.rss_item_row, parent, false);
         }
+        TextView titleView = (TextView) convertView.findViewById(R.id.rssItemTitle);
         TextView dateView = (TextView) convertView.findViewById(R.id.rssItemDate);
         TextView descriptionView = (TextView) convertView.findViewById(R.id.rssItemDescription);
-        RssContent.EntryRss entryRss = this.entryRssList.get(position);
-        ((TextView) convertView.findViewById(R.id.rssItemTitle)).setText(entryRss.title);
-        dateView.setText(entryRss.date);
+        titleView.setText(entryRss.title);
+        dateView.setText(entryRss.published);
         descriptionView.setText(Html.fromHtml(entryRss.description));
         return convertView;
     }
